@@ -51,9 +51,24 @@ int main(int ac, char **av)
 				buffer[rd - 1] = '\0';
 			if (rd == -1)
 				perror("");
-			argv[0]= buffer;
-			argv[1] = NULL;
-			if (execve(argv[0], argv, NULL) == -1)
+			size_t len = strlen(buffer);
+			char *args[64];
+			int i = 0;
+			char *dup = malloc(len + 1);
+			if (dup == NULL)
+			{
+				perror("Malloc");
+				exit(1);
+			}
+			strcpy(dup, buffer);
+			char *token = strtok(dup, " \t\n");
+			while (token != NULL)
+			{
+				args[i++] = token;
+				token = strtok(NULL, " \t\n");
+			}
+			args[i] = NULL;
+			if (execve(args[0], args, NULL) == -1)
 				perror("./shell");
 		}
 		else
