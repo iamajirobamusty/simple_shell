@@ -19,6 +19,13 @@ char *path_finder(char *com)
 	int com_len, path_len;
 	char *p = strdup(path);
 
+
+	if (strchr(com, '/'))
+	{
+		if (access(com, X_OK) == 0)
+			return (strdup(com));
+		return NULL;
+	}
 	token = strtok(p, ":");
 	while(token != NULL)
 	{

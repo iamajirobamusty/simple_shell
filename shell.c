@@ -85,6 +85,12 @@ int main(int ac, char **av)
 		}
 		args[i] = NULL;
 
+		if (strcmp(args[0], "exit") == 0)
+		{
+			free(dup);
+			exit(1);
+		}
+
 		if (args[0] == NULL)
 		{
 			free(dup);
